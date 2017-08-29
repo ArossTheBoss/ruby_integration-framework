@@ -15,7 +15,8 @@ class HttpBase
 		@authenticity_token = session['authenticityToken']
 		@base_url = session['baseUrl']
 		@path = path
-		@protocol = "http://" 
+		@protocol = "http://"
+
 
 		if !@base_url.include?("localhost")
 			@protocol = "https://"
@@ -71,7 +72,7 @@ class HttpBase
 				puts "ERROR with POST request for #{response.request.url} with status: " + RestClient::STATUSES[response.code].to_s
 			end
 		when "put"
-			if response.code != 200
+			if response.code != 200 
 				puts "ERROR with PUT request for #{response.request.url} with status: " + RestClient::STATUSES[response.code].to_s
 			end
 		else
