@@ -14,5 +14,4 @@ class TermsAndConditions < HttpBase
 		id = response['results'].first['id']
 		response = self.post(path: "api/catalog/terms_and_conditions/#{id}/make_active", payload: {})
 	end
-
 end

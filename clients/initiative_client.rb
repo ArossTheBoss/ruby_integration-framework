@@ -9,7 +9,7 @@ class InitiativeClient < HttpBase
 	end
 
 	def initiative_data(initiative_duration: 0, client_brand_id: 'b9cf6cc6-7aa5-4e71-bcf6-152e70630ca', client_id: 'f2e4d1b5-b46e-445f-a625-41610d69d8c6')
-		names = 'Love it Ted-' + DateTime.now.to_s
+		names = 'Test-Initiative-' + DateTime.now.to_s
 		num = Faker::Number.number(7)
 		now = DateTime.now 
 		data = {'name': names,

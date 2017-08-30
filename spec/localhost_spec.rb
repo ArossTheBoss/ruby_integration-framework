@@ -7,6 +7,7 @@ require_relative '../clients/campaign_client'
 require_relative '../clients/proposal_client'
 require_relative '../clients/http_base'
 require 'json'
+require 'faker'
 
 
 RSpec.describe "Api Integration flow pointed at localhost" do
@@ -18,6 +19,9 @@ RSpec.describe "Api Integration flow pointed at localhost" do
   let(:terms_conditions_client) {TermsAndConditions.new(session: authenticated_session)}
   let(:campaign_client) {CampaignClient.new(session: authenticated_session)}
   let(:proposal_client) {ProposalClient.new(session: authenticated_session)}
+  let(:media_rate) { Faker::Number.number(1) }
+  let(:total_units) { Faker::Number.number(1) }
+  let(:available_units) { Faker::Number.number(1) }
 
   it 'excepts terms and conditions' do
     response = terms_conditions_client.except_terms_and_conditions
@@ -46,8 +50,15 @@ RSpec.describe "Api Integration flow pointed at localhost" do
 
     proposal = proposal_client.create_proposal(data: propostal_payload)
 
-    proposal_line_item_payload = proposal_client.line_item_data(proposal: proposal, campaign: campaign, rate_type: 'CPM')
+    10.times do
+    proposal_line_item_payload = proposal_client.line_item_data(proposal: proposal,
+                                                                campaign: campaign,
+                                                                rate_type: 'CPM',
+                                                                media_rate: media_rate,
+                                                                total_units: total_units,
+                                                                available_units: available_units)
 
-    add_line_item = proposal_client.update_proposal(line_item_data: proposal_line_item_payload, line_items_to_create: 10)
+    add_line_item = proposal_client.update_proposal(line_item_data: proposal_line_item_payload)
+    end
     end
 end

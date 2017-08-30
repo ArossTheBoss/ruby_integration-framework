@@ -41,12 +41,10 @@ class ProposalClient < HttpBase
     self.post(payload: data)
   end
 
-  def update_proposal(line_item_data:, line_items_to_create: 1)
+  def update_proposal(line_item_data: )
     proposal_id = line_item_data[:id]
 
-    line_items_to_create.times do
     self.put(payload: line_item_data, path: "api/direct/proposals/" + proposal_id)
-    end
   end
 
   def rate_type(type:)
@@ -54,8 +52,7 @@ class ProposalClient < HttpBase
     type['id']
   end
 
-  def line_item_data(proposal:, campaign:, rate_type:)
-
+  def line_item_data(proposal:, campaign:, rate_type:, media_rate:, total_units:, available_units:)
     {
       "id": proposal['id'],
       "name": nil,
@@ -65,7 +62,13 @@ class ProposalClient < HttpBase
                                      "id": proposal['property_buys'].first['id'],
                                      "position": 1,
                                      "property_vendor_id": proposal['property_buys'].first['property_vendor']['id'],
-                                     "tactics_attributes": tactics_attributes(name: 'Line Item', start_date: campaign['start_date'], end_date: campaign['end_date'], rate_type: rate_type),
+                                     "tactics_attributes": tactics_attributes(name: 'Line Item',
+                                                                              start_date: campaign['start_date'],
+                                                                              end_date: campaign['end_date'],
+                                                                              rate_type: rate_type,
+                                                                              media_rate: media_rate,
+                                                                              total_units: total_units,
+                                                                              available_units: available_units),
                                      "placements_attributes": []
                                    }]
 
@@ -73,32 +76,32 @@ class ProposalClient < HttpBase
 
   end
 
-  def tactics_attributes(name:, start_date:, end_date:, rate_type:)
+  def tactics_attributes(name:, start_date:, end_date:, rate_type:, media_rate:, total_units:, available_units:)
     [{
        "name": name,
        "rate_type_id": rate_type(type: rate_type),
        "format_id": "1a0add74-2112-46fd-849e-3ebd73cdc0a1",
        "platform_ids": ["1921e580-5d11-4a8f-8cbe-20116c06cde3"],
        "dimension_ids": ["006c8e7d-aaee-4f3a-8cfe-422f9f95f963"],
-       "flights_attributes": flights_attributes(start_date: start_date , end_date: end_date )
+       "flights_attributes": flights_attributes(start_date: start_date , end_date: end_date, media_rate: media_rate, total_units: total_units, available_units: available_units )
      }]
   end
 
-  def flights_attributes(start_date:, end_date:)
+  def flights_attributes(start_date:, end_date:, media_rate:, total_units:, available_units: )
     [{
        "start_date": start_date,
        "end_date": end_date,
-       "media_rate": 2,
-       "client_media_rate": 2,
-       "user_input_media_cost": 2,
-       "ordered_units": 1,
-       "total_units": 2,
-       "available_units": 2,
-       "user_input_client_cost": 2,
+       "media_rate": media_rate,
+       "client_media_rate": Faker::Number.number(1),
+       "user_input_media_cost": Faker::Number.number(2),
+       "ordered_units": Faker::Number.number(2),
+       "total_units": total_units,
+       "available_units": available_units,
+       "user_input_client_cost": Faker::Number.number(2),
        "user_input_media_margin": 0,
-       "user_input_client_rate": 2,
-       "ad_serving_rate": 2,
-       "ad_serving_client_rate": 2
+       "user_input_client_rate": Faker::Number.number(2),
+       "ad_serving_rate": Faker::Number.number(2),
+       "ad_serving_client_rate": Faker::Number.number(2)
      }]
   end
 end
