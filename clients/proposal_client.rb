@@ -77,6 +77,7 @@ class ProposalClient < HttpBase
   end
 
   def tactics_attributes(name:, start_date:, end_date:, rate_type:, media_rate:, total_units:, available_units:)
+    #Need end points to expose seeded data. Rate type is done need format id and dimensions and platform ids
     [{
        "name": name,
        "rate_type_id": rate_type(type: rate_type),
