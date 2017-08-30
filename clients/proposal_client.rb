@@ -61,7 +61,7 @@ class ProposalClient < HttpBase
                                      "id": proposal['property_buys'].first['id'],
                                      "position": 1,
                                      "property_vendor_id": proposal['property_buys'].first['property_vendor']['id'],
-
+                                     "tactics_attributes": tactics_attributes(name: 'Line Item', start_date: campaign['start_date'], end_date: campaign['end_date'], rate_type: rate_type),
                                      "placements_attributes": []
                                    }]
 
