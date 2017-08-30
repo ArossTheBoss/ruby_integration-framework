@@ -41,9 +41,12 @@ class ProposalClient < HttpBase
     self.post(payload: data)
   end
 
-  def update_proposal(line_item_data: )
+  def update_proposal(line_item_data:, line_items_to_create: 1)
     proposal_id = line_item_data[:id]
+
+    line_items_to_create.times do
     self.put(payload: line_item_data, path: "api/direct/proposals/" + proposal_id)
+    end
   end
 
   def rate_type(type:)
@@ -52,6 +55,7 @@ class ProposalClient < HttpBase
   end
 
   def line_item_data(proposal:, campaign:, rate_type:)
+
     {
       "id": proposal['id'],
       "name": nil,
@@ -66,15 +70,16 @@ class ProposalClient < HttpBase
                                    }]
 
     }
+
   end
 
   def tactics_attributes(name:, start_date:, end_date:, rate_type:)
     [{
        "name": name,
        "rate_type_id": rate_type(type: rate_type),
-       "format_id": "a44846cc-b9dd-4242-9a18-e7b697827a6d",
-       "platform_ids": ["29dd5304-e740-434a-b977-f4e9893107e6"],
-       "dimension_ids": ["ed19322d-2af4-49c2-8549-dcd46a2233e6"],
+       "format_id": "1a0add74-2112-46fd-849e-3ebd73cdc0a1",
+       "platform_ids": ["1921e580-5d11-4a8f-8cbe-20116c06cde3"],
+       "dimension_ids": ["006c8e7d-aaee-4f3a-8cfe-422f9f95f963"],
        "flights_attributes": flights_attributes(start_date: start_date , end_date: end_date )
      }]
   end

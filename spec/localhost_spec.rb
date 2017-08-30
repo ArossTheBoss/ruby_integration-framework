@@ -34,18 +34,20 @@ RSpec.describe "Api Integration flow pointed at localhost" do
 
     expect(created_client["id"]).to eq(found_client["id"])
 
-    initiative_data = initiative_client.initiative_data(initiative_duration: 30, client_brand_id: created_client['client_brands'].first['id'], client_id: created_client['id'])
+    initiative_payload = initiative_client.initiative_data(initiative_duration: 30,
+                                                           client_brand_id: created_client['client_brands'].first['id'],
+                                                           client_id: created_client['id'])
 
-    initiative = initiative_client.create_initiative(data: initiative_data)
+    initiative = initiative_client.create_initiative(data: initiative_payload)
 
     campaign = campaign_client.create_campaign(initiative: initiative)
 
-    propostal_data = proposal_client.data(media_plan_id: campaign['media_plan_id'])
+    propostal_payload = proposal_client.data(media_plan_id: campaign['media_plan_id'])
 
-    proposal = proposal_client.create_proposal(data: propostal_data)
+    proposal = proposal_client.create_proposal(data: propostal_payload)
 
-    propostal_data = proposal_client.line_item_data(proposal: proposal, campaign: campaign, rate_type: 'CPM')
+    proposal_line_item_payload = proposal_client.line_item_data(proposal: proposal, campaign: campaign, rate_type: 'CPM')
 
-    add_line_item = proposal_client.update_proposal(line_item_data:propostal_data)
+    add_line_item = proposal_client.update_proposal(line_item_data: proposal_line_item_payload, line_items_to_create: 10)
     end
 end
