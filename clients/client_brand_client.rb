@@ -4,7 +4,7 @@ require 'json'
 require 'pry'
 require 'date'
 
-class Client < HttpBase
+class ClientAndBrandClient < HttpBase
 
 	def initialize(session: nil, path: 'api/catalog/clients')
 		super(session, path)

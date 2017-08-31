@@ -1,6 +1,6 @@
 require_relative '../modules/authentication'
 require_relative '../clients/http_base'
-require_relative '../clients/client_client'
+require_relative '../clients/client_brand_client'
 require_relative '../clients/initiative_client'
 require_relative '../clients/terms_and_conditions_client'
 require_relative '../clients/campaign_client'

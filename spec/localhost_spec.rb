@@ -1,6 +1,6 @@
 require_relative '../modules/authentication'
 require_relative '../clients/http_base'
-require_relative '../clients/client_client'
+require_relative '../clients/client_brand_client'
 require_relative '../clients/initiative_client'
 require_relative '../clients/terms_and_conditions_client'
 require_relative '../clients/campaign_client'
@@ -13,7 +13,7 @@ require 'faker'
 RSpec.describe "Api Integration flow pointed at localhost" do
 
   let(:authenticated_session) {Authentication::authenticate()}
-  let(:client) {Client.new(session: authenticated_session)}
+  let(:client) {ClientAndBrandClient.new(session: authenticated_session)}
   let(:initiative_client) {InitiativeClient.new(session: authenticated_session)}
   let(:brand_id) {client.get_valid_brands(first_brand_id_only: true)}
   let(:terms_conditions_client) {TermsAndConditions.new(session: authenticated_session)}
@@ -50,7 +50,7 @@ RSpec.describe "Api Integration flow pointed at localhost" do
 
     proposal = proposal_client.create_proposal(data: propostal_payload)
 
-    10.times do
+    5.times do
     proposal_line_item_payload = proposal_client.line_item_data(proposal: proposal,
                                                                 campaign: campaign,
                                                                 rate_type: 'CPM',

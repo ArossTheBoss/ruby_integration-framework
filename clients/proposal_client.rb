@@ -43,7 +43,6 @@ class ProposalClient < HttpBase
 
   def update_proposal(line_item_data: )
     proposal_id = line_item_data[:id]
-
     self.put(payload: line_item_data, path: "api/direct/proposals/" + proposal_id)
   end
 
@@ -81,9 +80,9 @@ class ProposalClient < HttpBase
     [{
        "name": name,
        "rate_type_id": rate_type(type: rate_type),
-       "format_id": "1a0add74-2112-46fd-849e-3ebd73cdc0a1",
-       "platform_ids": ["1921e580-5d11-4a8f-8cbe-20116c06cde3"],
-       "dimension_ids": ["006c8e7d-aaee-4f3a-8cfe-422f9f95f963"],
+       "format_id": "64c678cf-8a63-4527-a7fb-8d82ef1b49b9",
+       "platform_ids": ["51003dd4-d76a-429f-bd56-97138bcd2ad9"],
+       "dimension_ids": ["90c7c6e4-cb02-452f-9693-1b27684c2d0a"],
        "flights_attributes": flights_attributes(start_date: start_date , end_date: end_date, media_rate: media_rate, total_units: total_units, available_units: available_units )
      }]
   end
