@@ -6,7 +6,7 @@ require 'rest-client'
 
 
 module Authentication
-   
+
 	DEFUALT_USER = 'fun_admin@test.test'
 	DEFAULT_PASSWORD = "danpatrick"
   LOGIN_BASE_URL = "localhost:3000"
@@ -69,8 +69,8 @@ module Authentication
      authenticity_token = get_authenticty_token(auth_response)
      csrf_token = get_csrf_token(auth_response)
      form_data = url_encoded_form_data(authenticity_token: authenticity_token, user: user, password: password)
-    
-     session_response = RestClient::Request.execute(method: :post, url: session_url, payload: form_data, headers: headers) {|response, request, result| response}
+
+     session_response = RestClient::Request.execute(method: :post, url: session_url, payload: form_data, headers: headers) {|response, request, result| response }
 
      headers["Cookie"] = get_cookies_from_response(session_response)
      headers["Accept"] = "application/json; charset=utf-8"

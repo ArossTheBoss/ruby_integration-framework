@@ -78,6 +78,5 @@ class HttpBase
 		else
 		end
 	end
-
 end
 

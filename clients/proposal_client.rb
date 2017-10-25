@@ -61,7 +61,7 @@ class ProposalClient < HttpBase
                                      "id": proposal['property_buys'].first['id'],
                                      "position": 1,
                                      "property_vendor_id": proposal['property_buys'].first['property_vendor']['id'],
-                                     "tactics_attributes": tactics_attributes(name: 'Line Item',
+                                     "tactics_attributes": tactics_attributes(name: "Line Item for #{rate_type}",
                                                                               start_date: campaign['start_date'],
                                                                               end_date: campaign['end_date'],
                                                                               rate_type: rate_type,
@@ -80,9 +80,9 @@ class ProposalClient < HttpBase
     [{
        "name": name,
        "rate_type_id": rate_type(type: rate_type),
-       "format_id": "060eeb04-2abb-407d-9da0-418cc4431589",
-       "platform_ids": ["8a6f173b-b6bf-4c81-8f1c-76f5890412d6"],
-       "dimension_ids": ["f6f6e4e5-be52-41c6-b1c4-42fe2ab2b501"],
+       "format_id": "b8df52ed-748f-4ba1-93de-2c42fd2a99d1",
+       "platform_ids": ["b715f838-5ccd-4f43-9a6f-cd234306cda6"],
+       "dimension_ids": ["8b432283-5d03-4bc7-a822-337542cff0ca"],
        "flights_attributes": flights_attributes(start_date: start_date , end_date: end_date, media_rate: media_rate, total_units: total_units, available_units: available_units )
      }]
   end

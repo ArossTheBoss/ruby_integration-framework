@@ -30,6 +30,7 @@ RSpec.describe "Api Integration flow pointed at localhost" do
 
 
   it "creates campaigns" do
+    2.times do
     client_payload = client.data(brand_id: brand_id)
 
     created_client = client.create_client(payload: client_payload)
@@ -50,10 +51,10 @@ RSpec.describe "Api Integration flow pointed at localhost" do
 
     proposal = proposal_client.create_proposal(data: propostal_payload)
 
-    5.times do
+    ["Dynamic CPM", "CPM", "Dynamic CPC","Flat Impressions", "Flat Views", "Flat Completed Views", "CPC"].each do |type|
     proposal_line_item_payload = proposal_client.line_item_data(proposal: proposal,
                                                                 campaign: campaign,
-                                                                rate_type: 'CPM',
+                                                                rate_type: type,
                                                                 media_rate: media_rate,
                                                                 total_units: total_units,
                                                                 available_units: available_units)
@@ -61,4 +62,5 @@ RSpec.describe "Api Integration flow pointed at localhost" do
     add_line_item = proposal_client.update_proposal(line_item_data: proposal_line_item_payload)
     end
     end
+  end
 end
