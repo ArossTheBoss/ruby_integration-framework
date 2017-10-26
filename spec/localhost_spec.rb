@@ -47,7 +47,7 @@ RSpec.describe "Api Integration flow pointed at localhost" do
 
     campaign = campaign_client.create_campaign(initiative: initiative)
 
-    propostal_payload = proposal_client.data(media_plan_id: campaign['media_plan_id'])
+    propostal_payload = proposal_client.data(media_plan_id: campaign['media_plan_id'], vendor: 'Matrix')
 
     proposal = proposal_client.create_proposal(data: propostal_payload)
 

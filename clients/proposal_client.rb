@@ -16,13 +16,13 @@ class ProposalClient < HttpBase
     self.get(path: 'api/catalog/markets')
   end
 
-  def univeral_search(vendor_name: 'Matrix')
+  def univeral_search(vendor_name: 'FBSkins.com')
     vendor_info = self.get(path: "api/catalog/universal_search?active=true&for_vendor=false&name=#{vendor_name}&page=1&sort%5Bfield%5D=name&sort%5Border%5D=asc&type=property")
     self.get(path: "/api/catalog/properties/#{vendor_info['results'].first['_id']}")
   end
 
-  def data(media_plan_id:)
-    vendor_properties = self.univeral_search
+  def data(media_plan_id:, vendor:)
+    vendor_properties = self.univeral_search(vendor_name: vendor)
     vendor_id = vendor_properties['vendors'].first['id']
     propert_vendor_id = vendor_properties['property_vendors'].first['id']
 
