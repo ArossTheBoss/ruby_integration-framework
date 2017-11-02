@@ -6,7 +6,14 @@ require 'json'
 class HttpBase
 	extend Authentication
 
-	attr_accessor :headers, :cookies, :crf_token, :authenticity_token , :auth_data, :base_url, :path, :protocol, :session
+	attr_accessor :headers,
+								:cookies,
+								:crf_token,
+								:authenticity_token,
+								:auth_data, :base_url,
+								:path,
+								:protocol,
+								:session
 
 	def initialize(session, path)
 		@headers = session['headers']
@@ -15,18 +22,17 @@ class HttpBase
 		@authenticity_token = session['authenticityToken']
 		@base_url = session['baseUrl']
 		@path = path
-		@protocol = "http://"
+		@protocol = 'http://'
 
-
-		if !@base_url.include?("localhost")
-			@protocol = "https://"
+		unless @base_url.include?('localhost')
+			@protocol = 'https://'
 		end
 	end	
 
 	def get(path: nil, params: {})
 		full_url = @base_url
 		if path
-			full_url = @base_url+ "/" + path
+			full_url = @base_url+ '/' + path
 		end
 		response = RestClient::Request.execute(method: :get, url: @protocol + full_url, headers: @headers, params: params)
 		error_check(response)
@@ -34,9 +40,9 @@ class HttpBase
 	end
 
 	def post(path: nil, payload: nil)
-	    full_url = @base_url + "/" +@path
+	    full_url = @base_url + '/' + @path
 		if path
-			full_url = @base_url+ "/" + path
+			full_url = @base_url+ '/' + path
 		end
 		@headers['X-CSRF-Token'] = @crf_token
 		response = RestClient::Request.execute(method: :post, url: @protocol + full_url, payload: payload, headers: @headers) {|response, request, result| response}
@@ -49,7 +55,7 @@ class HttpBase
 	end
 
 	def put(path: nil, payload: nil)
-		full_url = @base_url + "/" +@path
+		full_url = @base_url + "/" + @path
 		if path
 			full_url = @base_url+ "/" + path
 		end

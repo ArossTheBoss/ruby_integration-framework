@@ -22,8 +22,6 @@ RSpec.describe "Production API smoke test" do
     binding.pry
     http_client.get('')
   end
-
-
 end
 
 
