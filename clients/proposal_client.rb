@@ -3,6 +3,7 @@ require 'faker'
 require 'json'
 require 'pry'
 require 'date'
+require 'csv'
 
 class ProposalClient < HttpBase
   attr_accessor :proposal_id
@@ -46,6 +47,30 @@ class ProposalClient < HttpBase
     self.put(payload: line_item_data, path: "api/direct/proposals/" + proposal_id)
   end
 
+  def create_csv_file
+    filename = 'test_file.csv'
+    CSV.open(filename, 'wb') do |csv|
+      csv << ['header']
+      csv << ['data']
+    end
+    filename
+  end
+
+  def approval_payload(campaign:, initiative:)
+    {
+      "media_plan_id": campaign['media_plan_id'],
+      "ugcid": campaign['ugcid'],
+      "client_brand_id": initiative['client_brand']['id'],
+      "multipart": true,
+      "approval_document": File.new(create_csv_file, 'rb')
+    }
+  end
+
+  def approve_proposal(campaign:, initiative:)
+    payload = approval_payload(campaign: campaign, initiative: initiative)
+    self.post(path: "/api/direct/campaigns/#{campaign['id']}/plan_approve", payload: payload)
+  end
+
   def rate_type(type:)
     type = self.get(path: 'api/direct/rate_types').select {|t| t['description'] == type }.first
     type['id']
@@ -80,9 +105,9 @@ class ProposalClient < HttpBase
     [{
        "name": name,
        "rate_type_id": rate_type(type: rate_type),
-       "format_id": "088b7fda-c7aa-483a-9d9f-8951cf41a51c",
-       "platform_ids": ["c4e8fca1-7d33-44f7-86b0-a027fbad9c7b"],
-       "dimension_ids": ["a7ba0cff-3be8-48b8-ad59-4ae2ff5a14fd"],
+       "format_id": "d3dcea6d-4a54-4f03-a648-d381672856dc",
+       "platform_ids": ["bdc74fe1-55b7-43c0-b655-fde0c6471dec"],
+       "dimension_ids": ["35668dff-70ae-437e-8709-11a8f673d5cd"],
        "flights_attributes": flights_attributes(start_date: start_date , end_date: end_date, media_rate: media_rate, total_units: total_units, available_units: available_units )
      }]
   end

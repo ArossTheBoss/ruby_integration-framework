@@ -73,8 +73,8 @@ class HttpBase
 			if response.code != 200
 				puts "ERROR with GET request for #{response.request.url} with status: " + RestClient::STATUSES[response.code].to_s
 			end
-		when "post"
-			if response.code != 201
+			when "post"
+				unless [200, 201].include?(response.code)
 				puts "ERROR with POST request for #{response.request.url} with status: " + RestClient::STATUSES[response.code].to_s
 			end
 		when "put"

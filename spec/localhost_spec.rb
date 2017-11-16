@@ -30,37 +30,40 @@ RSpec.describe "Api Integration flow pointed at localhost" do
 
 
   it "creates campaigns" do
-    2.times do
-    client_payload = client.data(brand_id: brand_id)
+    1.times do
+      puts "creating campaigns with vendor's..."
+      client_payload = client.data(brand_id: brand_id)
 
-    created_client = client.create_client(payload: client_payload)
+      created_client = client.create_client(payload: client_payload)
 
-    found_client = client.get_client_by_name(client_payload[:name])
+      found_client = client.get_client_by_name(client_payload[:name])
 
-    expect(created_client["id"]).to eq(found_client["id"])
+      expect(created_client["id"]).to eq(found_client["id"])
 
-    initiative_payload = initiative_client.initiative_data(initiative_duration: 30,
-                                                           client_brand_id: created_client['client_brands'].first['id'],
-                                                           client_id: created_client['id'])
+      initiative_payload = initiative_client.initiative_data(initiative_duration: 30,
+                                                             client_brand_id: created_client['client_brands'].first['id'],
+                                                             client_id: created_client['id'])
 
-    initiative = initiative_client.create_initiative(data: initiative_payload)
+      initiative = initiative_client.create_initiative(data: initiative_payload)
 
-    campaign = campaign_client.create_campaign(initiative: initiative)
+      campaign = campaign_client.create_campaign(initiative: initiative)
 
-    propostal_payload = proposal_client.data(media_plan_id: campaign['media_plan_id'], vendor: 'FBSkins.com')
+      propostal_payload = proposal_client.data(media_plan_id: campaign['media_plan_id'], vendor: 'FBSkins.com')
 
-    proposal = proposal_client.create_proposal(data: propostal_payload)
+      proposal = proposal_client.create_proposal(data: propostal_payload)
 
-    ["Dynamic CPM", "CPM", "Dynamic CPC","Flat Impressions", "Flat Views", "Flat Completed Views", "CPC"].each do |type|
-    proposal_line_item_payload = proposal_client.line_item_data(proposal: proposal,
+      ["Dynamic CPM", "CPM", "Dynamic CPC","Flat Impressions", "Flat Views", "Flat Completed Views", "CPC"].each do |type|
+        proposal_line_item_payload = proposal_client.line_item_data(proposal: proposal,
                                                                 campaign: campaign,
                                                                 rate_type: type,
                                                                 media_rate: media_rate,
                                                                 total_units: total_units,
                                                                 available_units: available_units)
 
-    add_line_item = proposal_client.update_proposal(line_item_data: proposal_line_item_payload)
-    end
+        add_line_item = proposal_client.update_proposal(line_item_data: proposal_line_item_payload)
+      end
+
+      approved_proposal = proposal_client.approve_proposal(campaign: campaign, initiative: initiative)
     end
   end
 end
