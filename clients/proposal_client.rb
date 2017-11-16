@@ -23,20 +23,28 @@ class ProposalClient < HttpBase
   end
 
   def data(media_plan_id:, vendor:)
-    vendor_properties = self.univeral_search(vendor_name: vendor)
-    vendor_id = vendor_properties['vendors'].first['id']
-    propert_vendor_id = vendor_properties['property_vendors'].first['id']
-
-    {
+    d =  {
       "media_plan_id": media_plan_id,
-      "vendor_id": vendor_id,
       "contact_ids": [],
-      "property_buys_attributes": [{
-                                     "property_vendor_id": propert_vendor_id,
-                                     "tactics_attributes": []
-                                   }]
+      "property_buys_attributes": []
     }
+
+    vendor.each do |v|
+      vendor_properties = self.univeral_search(vendor_name: v)
+      vendor_id = vendor_properties['vendors'].first['id']
+      propert_vendor_id = vendor_properties['property_vendors'].first['id']
+
+      attributes  = {
+        "property_vendor_id": propert_vendor_id,
+        "tactics_attributes": []
+      }
+
+      d[:vendor_id] = vendor_id
+      d[:property_buys_attributes] << attributes
+    end
+    return d
   end
+
 
   def create_proposal(data:)
     self.post(payload: data)
@@ -77,27 +85,31 @@ class ProposalClient < HttpBase
   end
 
   def line_item_data(proposal:, campaign:, rate_type:, media_rate:, total_units:, available_units:)
-    {
+    d= {
       "id": proposal['id'],
       "name": nil,
       "viewed": false,
       "media_plan_id": campaign['media_plan_id'],
-      "property_buys_attributes": [{
-                                     "id": proposal['property_buys'].first['id'],
-                                     "position": 1,
-                                     "property_vendor_id": proposal['property_buys'].first['property_vendor']['id'],
-                                     "tactics_attributes": tactics_attributes(name: "Line Item for #{rate_type}",
-                                                                              start_date: campaign['start_date'],
-                                                                              end_date: campaign['end_date'],
-                                                                              rate_type: rate_type,
-                                                                              media_rate: media_rate,
-                                                                              total_units: total_units,
-                                                                              available_units: available_units),
-                                     "placements_attributes": []
-                                   }]
-
+      "property_buys_attributes": []
     }
 
+    proposal["property_buys"].each do |p|
+
+    d[:property_buys_attributes] << {
+      "id": p['id'],
+      "position": 1,
+      "property_vendor_id": p['property_vendor']['id'],
+      "tactics_attributes": tactics_attributes(name: "Line Item for #{rate_type}",
+                                               start_date: campaign['start_date'],
+                                               end_date: campaign['end_date'],
+                                               rate_type: rate_type,
+                                               media_rate: media_rate,
+                                               total_units: total_units,
+                                               available_units: available_units),
+      "placements_attributes": []
+    }
+    end
+    return d
   end
 
   def tactics_attributes(name:, start_date:, end_date:, rate_type:, media_rate:, total_units:, available_units:)
