@@ -20,7 +20,7 @@ class CampaignClient < HttpBase
 
 		{ 'ugcid': Faker::Number.number(5),
 			'budget': Faker::Number.number(4),
-			'name': 'Monkey Man Campaign' + DateTime.now.to_s,
+			'name': 'Scripting Campaign' + DateTime.now.to_s,
 			'initiative_id': initiative_id ,
 	        'objectives_attributes': [{
 		    'goal': Faker::Number.number(3),
