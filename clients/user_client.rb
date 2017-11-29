@@ -25,7 +25,5 @@ class UserClient < HttpBase
 		response = self.post(payload: data)
 		puts response
 	end
-
-
 end
 

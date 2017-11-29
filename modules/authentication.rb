@@ -6,8 +6,7 @@ require 'rest-client'
 
 
 module Authentication
-
-	DEFUALT_USER = 'fun_admin@test.test'
+  DEFUALT_USER = 'fun_admin@test.test'
 	DEFAULT_PASSWORD = "danpatrick"
   LOGIN_BASE_URL = "localhost:3000"
 	LOGIN_PATH = "auth/login"
@@ -30,7 +29,7 @@ module Authentication
         data = {'session[email]' => user,  'session[password]' => password, 'commit' => 'Sign in ', 'authenticity_token' => authenticity_token, 'utf8'=> '✓'}
         encoded_data = URI.encode_www_form(data)
 		return encoded_data
-    end
+  end
     
     def self.get_cookies_from_response(response)
         cookie = ''
@@ -58,11 +57,10 @@ module Authentication
      login_url = protocol + base_url + "/" + LOGIN_PATH
      session_url = protocol + base_url + "/" + SESSION_PATH
      headers = {}
-     dashboard_url = "#{base_url}/dashboard"
-    
+     dashboard_url = protocol + "#{base_url}/dashboard"
+
      dashboard_response = RestClient.get(dashboard_url)
      headers['Cookie'] = get_cookies_from_response(dashboard_response)
-     
      auth_response = RestClient::Request.execute(method: :get, url: login_url, headers: headers)
      headers['Cookie'] = get_cookies_from_response(auth_response)
     

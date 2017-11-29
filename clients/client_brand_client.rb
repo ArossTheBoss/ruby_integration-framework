@@ -37,7 +37,6 @@ class ClientAndBrandClient < HttpBase
 	def get_valid_brands(first_brand_id_only: false)
 		response = self.get(path: 'api/catalog/brands/search/')
 
-	   
 		if first_brand_id_only
 			return response['results'][0]['id']
 		end
@@ -56,7 +55,7 @@ class ClientAndBrandClient < HttpBase
 			paylod_data = payload
 		end
 		response = self.post(path: 'api/catalog/clients', payload: paylod_data)
-		
+
 		user = get_valid_users_by_email(user_email: user_email)
 
 		self.restrict_client_users(response['id'], team_user_id: user.first['id'])

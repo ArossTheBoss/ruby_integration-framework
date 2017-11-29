@@ -11,7 +11,7 @@ require 'faker'
 
 
 RSpec.describe "Api Integration flow pointed at localhost" do
-
+  #staging url 'staging01.prod.basis.net'
   let(:authenticated_session) {Authentication::authenticate()}
   let(:client) {ClientAndBrandClient.new(session: authenticated_session)}
   let(:initiative_client) {InitiativeClient.new(session: authenticated_session)}
@@ -32,8 +32,10 @@ RSpec.describe "Api Integration flow pointed at localhost" do
   it "creates campaigns" do
     1.times do
       puts "creating campaigns with vendor's..."
+      #depends on ENV this brand changes and some are not valid
+      #staging client branch 2f0e684b-58f0-47ee-b6a1-cf75e90d8b57'
       client_payload = client.data(brand_id: brand_id)
-
+      #staging user = 'manager@centro.net'
       created_client = client.create_client(payload: client_payload)
 
       found_client = client.get_client_by_name(client_payload[:name])
@@ -47,8 +49,8 @@ RSpec.describe "Api Integration flow pointed at localhost" do
       initiative = initiative_client.create_initiative(data: initiative_payload)
 
       campaign = campaign_client.create_campaign(initiative: initiative)
-
-      propostal_payload = proposal_client.data(media_plan_id: campaign['media_plan_id'], vendor: ['FBSkins.com','Matrix'])
+      #staging vendor 'google.com'
+      propostal_payload = proposal_client.data(media_plan_id: campaign['media_plan_id'], vendor: ["Matrix", "FBSkins.com"])
 
 
       proposal = proposal_client.create_proposal(data: propostal_payload)

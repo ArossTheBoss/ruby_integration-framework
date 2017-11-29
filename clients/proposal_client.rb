@@ -117,9 +117,9 @@ class ProposalClient < HttpBase
     [{
        "name": name,
        "rate_type_id": rate_type(type: rate_type),
-       "format_id": "d3dcea6d-4a54-4f03-a648-d381672856dc",
-       "platform_ids": ["bdc74fe1-55b7-43c0-b655-fde0c6471dec"],
-       "dimension_ids": ["35668dff-70ae-437e-8709-11a8f673d5cd"],
+       "format_id": "e576a51e-7703-43a0-b286-93a4169a1cc0",
+       "platform_ids": ["92d93bc8-3215-41a1-b1ee-6a553c8bb217"],
+       "dimension_ids": ["b806c45d-e5df-46dd-84ad-3a5c862a66a0"],
        "flights_attributes": flights_attributes(start_date: start_date , end_date: end_date, media_rate: media_rate, total_units: total_units, available_units: available_units )
      }]
   end

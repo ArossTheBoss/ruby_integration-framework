@@ -19,7 +19,6 @@ RSpec.describe "Production API smoke test" do
   let(:parse_response) { JSON.parse(response) }
 
   it 'test1' do
-    binding.pry
     http_client.get('')
   end
 end
