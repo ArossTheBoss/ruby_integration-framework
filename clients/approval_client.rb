@@ -30,7 +30,6 @@ class ApprovalClient < HttpBase
   end
 
   def approve_proposal(campaign:, initiative:)
-    binding.pry
     payload = approval_payload(campaign: campaign, initiative: initiative)
     self.post(path: "/api/direct/campaigns/#{campaign['id']}/plan_approve", payload: payload)
   end

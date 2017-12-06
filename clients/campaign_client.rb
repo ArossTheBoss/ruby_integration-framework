@@ -72,7 +72,6 @@ class CampaignClient < HttpBase
 			'deleted_at': nil,
 			'campaign_id': campaign_id
 		}
-
     self.put(path: "api/direct/media_plans/#{media_plan_id}", payload: payload)
 	 end
 

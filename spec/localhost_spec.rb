@@ -69,7 +69,7 @@ RSpec.describe "Api Integration flow pointed at localhost" do
 
       approved_proposal = approval_client.approve_proposal(campaign: campaign, initiative: initiative)
 
-      revise_proposal = proposal_client.revise_proposal(media_plan_id: campaign['media_plan_id'], number_of_revisions: 2)
+      # revise_proposal = proposal_client.revise_proposal(media_plan_id: campaign['media_plan_id'], number_of_revisions: 2)
 
     end
   end
