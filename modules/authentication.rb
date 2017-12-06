@@ -48,13 +48,14 @@ module Authentication
   end
 
   def self.authenticate(base_url: LOGIN_BASE_URL, user: DEFUALT_USER, password: DEFAULT_PASSWORD)
-    protocol = "http://"
-    if !base_url.include?("localhost")
-        protocol = "https://"
+    protocol = 'http://'
+
+    unless base_url.include?('localhost')
+        protocol = 'https://'
     end
 
-    login_url = protocol + base_url + "/" + LOGIN_PATH
-    session_url = protocol + base_url + "/" + SESSION_PATH
+    login_url = protocol + base_url + '/' + LOGIN_PATH
+    session_url = protocol + base_url + '/' + SESSION_PATH
     headers = {}
     dashboard_url = protocol + "#{base_url}/dashboard"
 
@@ -69,9 +70,18 @@ module Authentication
 
     session_response = RestClient::Request.execute(method: :post, url: session_url, payload: form_data, headers: headers) {|response, request, result| response }
 
-    headers["Cookie"] = get_cookies_from_response(session_response)
-    headers["Accept"] = "application/json; charset=utf-8"
-    authenticated_data ={'headers' => headers, 'csrfToken' => csrf_token, 'authenticityToken' => authenticity_token, 'cookies' => session_response.cookies, 'sessionResponse' => session_response, 'baseUrl' => base_url, 'user' => user, 'password' => password}
+    headers['Cookie'] = get_cookies_from_response(session_response)
+    headers['Accept'] = "application/json; charset=utf-8"
+
+    authenticated_data = { headers: headers,
+                          csrfToken: csrf_token,
+                          authenticityToken: authenticity_token,
+                          cookies: session_response.cookies,
+                          sessionResponse: session_response,
+                          baseUrl: base_url,
+                          user: user,
+                          password: password
+    }
     return authenticated_data
   end
 
@@ -83,7 +93,7 @@ module Authentication
         
     headers = authenticated_data['headers']
        
-    headers["Cookie"]= authenticated_data['headers']["Cookie"]
+    headers['Cookie']= authenticated_data['headers']["Cookie"]
     headers['X-CSRF-Token'] = authenticated_data['csrfToken']
        
     response = RestClient::Request.execute(method: :post, url: session_url, payload: payload, headers: headers) {|response, request, result| response}
