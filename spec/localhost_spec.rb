@@ -6,19 +6,21 @@ require_relative '../clients/terms_and_conditions_client'
 require_relative '../clients/campaign_client'
 require_relative '../clients/proposal_client'
 require_relative '../clients/http_base'
+require_relative '../clients/approval_client'
 require 'json'
 require 'faker'
 
 
 RSpec.describe "Api Integration flow pointed at localhost" do
   #staging url 'staging01.prod.basis.net'
-  let(:authenticated_session) {Authentication::authenticate()}
-  let(:client) {ClientAndBrandClient.new(session: authenticated_session)}
-  let(:initiative_client) {InitiativeClient.new(session: authenticated_session)}
+  let(:session) { Authentication::authenticate()}
+  let(:client) { ClientAndBrandClient.new(session: session)}
+  let(:initiative_client) { InitiativeClient.new(session: session)}
   let(:brand_id) {client.get_valid_brands(first_brand_id_only: true)}
-  let(:terms_conditions_client) {TermsAndConditions.new(session: authenticated_session)}
-  let(:campaign_client) {CampaignClient.new(session: authenticated_session)}
-  let(:proposal_client) {ProposalClient.new(session: authenticated_session)}
+  let(:terms_conditions_client) { TermsAndConditions.new(session: session)}
+  let(:campaign_client) { CampaignClient.new(session: session)}
+  let(:proposal_client) { ProposalClient.new(session: session)}
+  let(:approval_client) { ApprovalClient.new(session: session)}
   let(:media_rate) { Faker::Number.number(1) }
   let(:total_units) { Faker::Number.number(1) }
   let(:available_units) { Faker::Number.number(1) }
@@ -65,7 +67,7 @@ RSpec.describe "Api Integration flow pointed at localhost" do
         add_line_item = proposal_client.update_proposal(line_item_data: proposal_line_item_payload)
       end
 
-      approved_proposal = proposal_client.approve_proposal(campaign: campaign, initiative: initiative)
+      approved_proposal = approval_client.approve_proposal(campaign: campaign, initiative: initiative)
     end
   end
 end

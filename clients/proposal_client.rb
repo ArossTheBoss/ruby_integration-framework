@@ -10,7 +10,6 @@ class ProposalClient < HttpBase
 
   def initialize(session: nil, path: 'api/direct/proposals')
     super(session, path)
-
   end
 
   def get_markets
@@ -55,30 +54,6 @@ class ProposalClient < HttpBase
     self.put(payload: line_item_data, path: "api/direct/proposals/" + proposal_id)
   end
 
-  def create_csv_file
-    filename = 'test_file.csv'
-    CSV.open(filename, 'wb') do |csv|
-      csv << ['header']
-      csv << ['data']
-    end
-    filename
-  end
-
-  def approval_payload(campaign:, initiative:)
-    {
-      "media_plan_id": campaign['media_plan_id'],
-      "ugcid": campaign['ugcid'],
-      "client_brand_id": initiative['client_brand']['id'],
-      "multipart": true,
-      "approval_document": File.new(create_csv_file, 'rb')
-    }
-  end
-
-  def approve_proposal(campaign:, initiative:)
-    payload = approval_payload(campaign: campaign, initiative: initiative)
-    self.post(path: "/api/direct/campaigns/#{campaign['id']}/plan_approve", payload: payload)
-  end
-
   def rate_type(type:)
     type = self.get(path: 'api/direct/rate_types').select {|t| t['description'] == type }.first
     type['id']
@@ -117,9 +92,9 @@ class ProposalClient < HttpBase
     [{
        "name": name,
        "rate_type_id": rate_type(type: rate_type),
-       "format_id": "e576a51e-7703-43a0-b286-93a4169a1cc0",
-       "platform_ids": ["92d93bc8-3215-41a1-b1ee-6a553c8bb217"],
-       "dimension_ids": ["b806c45d-e5df-46dd-84ad-3a5c862a66a0"],
+       "format_id": "27fc7f3c-d9af-4d58-bdd6-79f1c3791b0f",
+       "platform_ids": ["07058737-8a8e-42db-8398-1d243b4ef2a5"],
+       "dimension_ids": ["aafbea81-1df1-476c-91df-f99a8d8420b5"],
        "flights_attributes": flights_attributes(start_date: start_date , end_date: end_date, media_rate: media_rate, total_units: total_units, available_units: available_units )
      }]
   end
