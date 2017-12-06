@@ -52,13 +52,13 @@ RSpec.describe "Api Integration flow pointed at localhost" do
 
       campaign = campaign_client.create_campaign(initiative: initiative)
       #staging vendor 'google.com'
-      propostal_payload = proposal_client.data(media_plan_id: campaign['media_plan_id'], vendor: ["Matrix", "FBSkins.com"])
-
+      propostal_payload = proposal_client.proposal_data(media_plan_id: campaign['media_plan_id'], vendor: ["Matrix", "FBSkins.com"])
 
       proposal = proposal_client.create_proposal(data: propostal_payload)
 
       ["Dynamic CPM", "CPM", "Dynamic CPC","Flat Impressions", "Flat Views", "Flat Completed Views", "CPC"].each do |type|
         proposal_line_item_payload = proposal_client.line_item_data(proposal: proposal,
+
                                                                 campaign: campaign,
                                                                 rate_type: type,
                                                                 media_rate: media_rate,
@@ -68,6 +68,9 @@ RSpec.describe "Api Integration flow pointed at localhost" do
       end
 
       approved_proposal = approval_client.approve_proposal(campaign: campaign, initiative: initiative)
+
+      revise_proposal = proposal_client.revise_proposal(media_plan_id: campaign['media_plan_id'], number_of_revisions: 2)
+
     end
   end
 end

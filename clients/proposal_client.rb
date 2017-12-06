@@ -21,7 +21,7 @@ class ProposalClient < HttpBase
     self.get(path: "/api/catalog/properties/#{vendor_info['results'].first['_id']}")
   end
 
-  def data(media_plan_id:, vendor:)
+  def proposal_data(media_plan_id:, vendor:)
     d =  {
       "media_plan_id": media_plan_id,
       "contact_ids": [],
@@ -52,6 +52,12 @@ class ProposalClient < HttpBase
   def update_proposal(line_item_data: )
     proposal_id = line_item_data[:id]
     self.put(payload: line_item_data, path: "api/direct/proposals/" + proposal_id)
+  end
+
+  def revise_proposal(media_plan_id:, number_of_revisions: 1)
+    number_of_revisions.times do
+      self.post(path: "api/direct/media_plans/#{media_plan_id}/revise")
+    end
   end
 
   def rate_type(type:)
