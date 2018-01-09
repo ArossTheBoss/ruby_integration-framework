@@ -1,10 +1,8 @@
 require 'pry'
 require 'rest-client'
-require_relative '../modules/authentication.rb'
 require 'json'
 
-class HttpBase
-	extend Authentication
+class HttpClient
 
 	attr_accessor :headers,
 								:cookies,
@@ -15,7 +13,7 @@ class HttpBase
 								:protocol,
 								:session
 
-	def initialize(session, path)
+	def initialize(session , path = '')
 		@headers = session[:headers]
 		@cookies = session[:cookies]
 		@crf_token = session[:csrfToken]

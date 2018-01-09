@@ -20,6 +20,7 @@ GEM
     oga (2.10)
       ast
       ruby-ll (~> 2.1)
+    pg (0.21.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -55,9 +56,10 @@ PLATFORMS
 DEPENDENCIES
   faker
   oga
+  pg
   pry
   rest-client
   rspec
 
 BUNDLED WITH
-   1.15.1
+   1.16.0

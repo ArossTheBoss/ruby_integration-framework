@@ -1,11 +1,11 @@
-require_relative 'http_base'
+require_relative 'http_client'
 require 'faker'
 require 'json'
 require 'pry'
 require 'date'
 require 'csv'
 
-class ProposalClient < HttpBase
+class ProposalClient < HttpClient
   attr_accessor :proposal_id
 
   def initialize(session: nil, path: 'api/direct/proposals')
@@ -22,7 +22,7 @@ class ProposalClient < HttpBase
   end
 
   def proposal_data(media_plan_id:, vendor:)
-    d =  {
+    d = {
       "media_plan_id": media_plan_id,
       "contact_ids": [],
       "property_buys_attributes": []
@@ -95,32 +95,36 @@ class ProposalClient < HttpBase
 
   def tactics_attributes(name:, start_date:, end_date:, rate_type:, media_rate:, total_units:, available_units:)
     #Need end points to expose seeded data. Rate type is done need format id and dimensions and platform ids
-    [{
-       "name": name,
-       "rate_type_id": rate_type(type: rate_type),
-       "format_id": "27fc7f3c-d9af-4d58-bdd6-79f1c3791b0f",
-       "platform_ids": ["07058737-8a8e-42db-8398-1d243b4ef2a5"],
-       "dimension_ids": ["aafbea81-1df1-476c-91df-f99a8d8420b5"],
-       "flights_attributes": flights_attributes(start_date: start_date , end_date: end_date, media_rate: media_rate, total_units: total_units, available_units: available_units )
-     }]
+    [
+      {
+        "name": name,
+        "rate_type_id": rate_type(type: rate_type),
+        "format_id": "4f564ac1-d7c3-445c-b3de-bf85a6df65b0",
+        "platform_ids": ["4edf7d8f-d14f-4cd6-8acd-b7e9d4fe6985"],
+        "dimension_ids": ["99900f50-3bce-4c31-96af-0b3437358f20"],
+        "flights_attributes": flights_attributes(start_date: start_date , end_date: end_date, media_rate: media_rate, total_units: total_units, available_units: available_units )
+      }
+    ]
   end
 
   def flights_attributes(start_date:, end_date:, media_rate:, total_units:, available_units: )
-    [{
-       "start_date": start_date,
-       "end_date": end_date,
-       "media_rate": media_rate,
-       "client_media_rate": Faker::Number.number(1),
-       "user_input_media_cost": Faker::Number.number(2),
-       "ordered_units": Faker::Number.number(2),
-       "total_units": total_units,
-       "available_units": available_units,
-       "user_input_client_cost": Faker::Number.number(2),
-       "user_input_media_margin": 0,
-       "user_input_client_rate": Faker::Number.number(2),
-       "ad_serving_rate": Faker::Number.number(2),
-       "ad_serving_client_rate": Faker::Number.number(2)
-     }]
+    [
+      {
+        "start_date": start_date,
+        "end_date": end_date,
+        "media_rate": media_rate,
+        "client_media_rate": Faker::Number.number(1),
+        "user_input_media_cost": Faker::Number.number(2),
+        "ordered_units": Faker::Number.number(2),
+        "total_units": total_units,
+        "available_units": available_units,
+        "user_input_client_cost": Faker::Number.number(2),
+        "user_input_media_margin": 0,
+        "user_input_client_rate": Faker::Number.number(2),
+        "ad_serving_rate": Faker::Number.number(2),
+        "ad_serving_client_rate": Faker::Number.number(2)
+      }
+    ]
   end
 end
 

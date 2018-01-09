@@ -1,9 +1,9 @@
-require_relative 'http_base'
+require_relative 'http_client'
 require 'faker'
 require 'json'
 require 'pry'
 
-class TermsAndConditions < HttpBase
+class TermsAndConditions < HttpClient
 
 	def initialize(session: nil, path: 'api/catalog/terms_and_conditions?page=1')
 		super(session, path)

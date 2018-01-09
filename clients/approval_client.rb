@@ -1,11 +1,11 @@
-require_relative 'http_base'
+require_relative 'http_client'
 require 'faker'
 require 'json'
 require 'pry'
 require 'Date'
 
 
-class ApprovalClient < HttpBase
+class ApprovalClient < HttpClient
   def initialize(session: nil, path: '/api/direct/campaigns/')
     super(session, path)
   end
